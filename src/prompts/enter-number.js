@@ -8,25 +8,42 @@ console.log('--- loading prompt --> ');
  * @param {string} [message='enter a number'] - the text displayed to the user
  * @returns {number} a number cast from the user input (never NaN)
  */
-const enterNumber = () => {
+const enterNumber = (message='enter a number') => { 
+  
+  let numOut;
+
   while (true) {
-    const repetation = prompt('how many times would you like to repeat word');
-    if (repetation === null || repetation.trim() === '') {
-      alert('nope, gotta enter something.')
+
+    //message = 'how many times would you like to repeat the word';
+    const repetition = prompt(message);
+
+    if (repetition === null || repetition.trim() === '') {
+      alert('nope, gotta enter something.');
       continue;
-    } else if (!((Number.isInteger(Number(repetation))) && (Number(repetation) > 0))) {
-      alert(`"${repetation}" is not a number`);
-      continue;
-    } else {
-      const confirmedRepetation = confirm(`is this correct \n "${repetation}"`);
-      if (confirmedRepetation) {
-        return repetation;
-      } else {
-        continue;
-      }
     }
+
+    else if (!(Number.isInteger(Number(repetition))) && (Number(repetition) > 0)) {
+      alert(`"${repetition}" is not a number`);
+      continue;
+    }
+
+    const confirmedRepetition = confirm(`is this correct?`);
+
+    if (!confirmedRepetition) {
+      continue;
+    }
+
+    else { 
+
+      numOut = Number(repetition);
+      return numOut;
+
+    }
+    
   }
+
 };
+
 
 {
   // store I/O functions and console.log for later
@@ -35,8 +52,8 @@ const enterNumber = () => {
   const globalConfirm = confirm;
   const globalAlert = alert;
   // over-write non-interactive I/O with empty functions
-  alert = () => {};
-  console.log = () => {};
+  alert = () => { };
+  console.log = () => { };
   // a function that simulates a user inputting a series of values
   const mockUser = (values, index = 0) => () => values[index++];
 
